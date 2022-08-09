@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Pavel Shvets
+  datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/itfb-shvets
+      username: postgres
+      password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/liquibase/main.xml
+
+server:
+    port: 8081
+    error:
+      whitelabel:
+        enabled: false
+
+cors:
+  allowedOrigins: http://localhost:8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metric

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-table-books" author="pnshvets">
+        <createTable tableName="books">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <createTable tableName="book_authors">
+            <column name="book_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="book_id, author_id" tableName="book_authors"/>
+
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_authors" constraintName="fk_book_id" referencedColumnNames="id" referencedTableName="books"/>
+
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="book_authors" constraintName="fk_author_id" referencedColumnNames="id" referencedTableName="authors"/>
+    </changeSet>
+
+    <changeSet id="create-table-books-data" author="pnshvets">
+        <loadData file="db/initial-data/books.csv" separator=";" tableName="books">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+        </loadData>
+
+        <loadData file="db/initial-data/book_authors.csv" separator=";" tableName="book_authors">
+            <column name="book_id" type="numeric"/>
+            <column name="author_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
